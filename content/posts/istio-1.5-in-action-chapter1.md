@@ -1,5 +1,5 @@
 ---
-title: "Istio 1.5.0 实战"
+title: "Istio 1.5.0 实战：安装"
 date: 2020-03-11T23:59:50+08:00
 draft: true
 ---
