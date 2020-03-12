@@ -1,7 +1,7 @@
 ---
 title: "Istio 1.5.0 实战：安装"
 date: 2020-03-11T23:59:50+08:00
-draft: true
+draft: false
 ---
 
 istio 1.5.0 于北京时间2020年3月6日发布，该版本在架构上有很大的变化([Istio 1.5 新特性解读](https://www.servicemesher.com/blog/istio-1-5-explanation/))，做出这些改变的原因及其重大意义这里不做赘述，有大量的文章做了阐述，本文聚焦于探索 istio-1.5.0 的行为。文中的练习是在腾讯云的容器服务 tke-1.16.3 上进行的，会涉及到一些云平台相关的实现。
@@ -72,7 +72,7 @@ spec:
 $ kubectl label node 172.21.128.82 company.com/ingressgateway=true
 ```
 
-### 安装到集群.
+### 安装到集群
 
 ```
 $ istioctl manifest apply -f profile-override-default.yaml
@@ -274,6 +274,8 @@ Detected that your cluster does not support third party JWT authentication. Fall
 $ kubectl get svc -n istio-system |grep istio-ingressgateway
 istio-ingressgateway        LoadBalancer   172.24.30.242   x.x.x.x   80:30552/TCP,443:30120/TCP                                 2d12h
 ```
+
+从公网lb访问 http://your-lb-ip/，会得到404响应。
 
 ## 部署 bookinfo
 
