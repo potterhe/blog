@@ -2,6 +2,8 @@
 title: "Istio 1.5.0 实战：安装"
 date: 2020-03-11T23:59:50+08:00
 draft: false
+tags: ["istio", "1.5.0", "实战", "安装"]
+slug: istio-1.5-in-action-setup
 ---
 
 istio 1.5.0 于北京时间2020年3月6日发布，该版本在架构上有很大的变化([Istio 1.5 新特性解读](https://www.servicemesher.com/blog/istio-1-5-explanation/))，做出这些改变的原因及其重大意义这里不做赘述，有大量的文章做了阐述，本文聚焦于探索 istio-1.5.0 的行为。文中的练习是在腾讯云的容器服务 tke-1.16.3 上进行的，会涉及到一些云平台相关的实现。
@@ -44,7 +46,7 @@ istio-ingressgateway 是网格的入口，其实现是一个 k8s 的 Service，�
 - [腾讯云-容器服务-创建 Service](https://cloud.tencent.com/document/product/457/18210) 描述了腾讯云定义的 annotations, 实现了多种行为：“公网服务”，“内网服务”，“指定 Loadbalance 只绑定指定节点”等。腾讯云公网lb只会把公网流量代理到“购买有公网带宽”的节点，创建公网的 istio-ingressgateway 时，我们用到了这些annotations，我们只希望购买了公网带宽的机器挂载到公网lb后端。
 - tke支持istio-cni
 
-通过覆盖 serviceAnnotations, nodeSelector和给公网带宽节点打上 label，实现了以下行为。
+通过覆盖 serviceAnnotations, nodeSelector和给公网带宽节点打上 label，实现了以下行为。且这些行为是保留客户端IP的必要条件，这是后话。
 
 - 公网lb只挂载有公网带宽的节点作为后端。
 - istio-ingressgateway 的 Pod 只部署在有公网带宽的节点上。
@@ -316,4 +318,4 @@ virtualservice.networking.istio.io/bookinfo created
 
 ## 小结
 
-我们完成了网格的安装，并可以通过公网访问到示例应用。下一步我们将实现监控，观测组件(grafana, kiali, tracing)的部署。
+我们完成了网格的安装，并可以通过公网访问到示例应用。下一步我们将实现监控，观测组件(grafana, kiali, tracing)的部署，以及使用认证、授权机制来保护它们。
