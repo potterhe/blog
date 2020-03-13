@@ -220,7 +220,7 @@ envoy    19 root   32u  IPv4 236714      0t0  TCP *:15090 (LISTEN)
 
 通过以上的观察
 
-- Pod 的15020端口，pilot-agent 监听，就绪探针使用。
+- Pod 的15020端口，pilot-agent 监听，就绪探针使用 path: /healthz/ready。
 - Pod 的15090端口，envoy的prometheus metric 端口，metrics_path: /stats/prometheus，这从prometheus的配置文件和 istio-ingressgateway 的 Deployment 定义的端口name: http-envoy-prom 确认。Pod 内访问 `curl http://localhost:15090/stats/prometheus` 可以获取数据。
 - 15000端口，`--proxyAdminPort` 已经很明确的标识了语义。
 - Pod 无443端口监听。因为还没有添加port 443 的 Gateway 对象。
