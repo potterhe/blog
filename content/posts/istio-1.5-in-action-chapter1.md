@@ -38,12 +38,12 @@ $ kubectl apply -f manifest-override-default.yaml
 
 ### istio-ingressgateway
 
-istio-ingressgateway 是网格的入口，其实现是一个 k8s 的 Service，云上一般我们只需要将其类型声明为 LoadBalancer，就可以创建一个公网的lb作为公网入口，但各个云厂商对其实现是不一样的。
+istio-ingressgateway 是网格的入口，其实现是一个 k8s 的 Service，云上一般我们只需要将其类型声明为 LoadBalancer，就可以创建一个公网的lb作为公网入口。
 
 ### 腾讯云的实现
 
 - 腾讯云 LoadBalancer 类型的 Service 有以下的实现细节：声明为 LoadBalancer 类型的 Service 会以 NodePort 相同行为的方式暴露(类型还是LoadBalancer, 只是行为同NodePort，如果你去查看集群中 Service 的 yaml文件，会发现每个端口都有NodePort声明)，lb自动挂载集群所有（也支持node label 指定）节点作为后端，Service 的端口绑定到节点的 NodePort 端口。这些都是自动的，行为是透明的。
-- [腾讯云-容器服务-创建 Service](https://cloud.tencent.com/document/product/457/18210) 描述了腾讯云定义的 annotations, 实现了多种行为：“公网服务”，“内网服务”，“指定 Loadbalance 只绑定指定节点”等。腾讯云公网lb只会把公网流量代理到“购买有公网带宽”的节点，创建公网的 istio-ingressgateway 时，我们用到了这些annotations，我们只希望购买了公网带宽的机器挂载到公网lb后端。
+- [腾讯云-容器服务-创建 Service](https://cloud.tencent.com/document/product/457/18210) 描述了腾讯云定义的 annotations, 实现了多种行为：“公网服务”，“内网服务”，“指定 Loadbalance 只绑定指定节点”等。腾讯云公网lb只会把公网流量代理到“购买有公网带宽”的节点，创建公网的 istio-ingressgateway 时，我们用到了这些 annotations，我们只希望购买了公网带宽的机器挂载到公网lb后端。
 - tke支持istio-cni
 
 通过覆盖 serviceAnnotations, nodeSelector和给公网带宽节点打上 label，实现了以下行为。且这些行为是保留客户端IP的必要条件，这是后话。
