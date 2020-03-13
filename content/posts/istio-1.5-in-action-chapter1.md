@@ -318,4 +318,4 @@ virtualservice.networking.istio.io/bookinfo created
 
 ## 小结
 
-我们完成了网格的安装，并可以通过公网访问到示例应用。下一步我们将实现监控，观测组件(grafana, kiali, tracing)的部署，以及使用认证、授权机制来保护它们。
+我们完成了网格的安装，并可以通过公网访问到示例应用。下一步我们将实现监控，观测组件(grafana, kiali, tracing)的部署。
