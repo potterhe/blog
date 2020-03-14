@@ -2,10 +2,12 @@ baseURL = "https://potterhe.github.io/"
 languageCode = "zh-cn"
 title = "Potterhe's Site"
 theme = "ananke"
+enableRobotsTXT = true
 
 Paginate = 6 # this is set low for demonstrating with dummy content. Set to a higher number
 
 [params]
+  env = "production"
   twitter = "https://twitter.com/potterhe"
   github = "https://github.com/potterhe"
   featured_image = "/images/gohugo-default-sample-hero-image.jpg"

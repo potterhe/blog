@@ -2,7 +2,7 @@
 title: kube-proxy的ipvs模式udp转发规则过期问题
 date: 2019-12-03T23:59:59+08:00
 draft: false
-tags: ["kube-proxy", "ipvs", "udp", "expire"]
+tags: ["kubernetes", "kube-proxy", "ipvs", "udp", "expire"]
 ---
 
 我们在使用腾讯云容器服务(tke)的过程中，遭遇了kube-proxy的ipvs模式udp转发规则过期问题，过程记录。

@@ -3,7 +3,7 @@ title: "Istio 1.5.0 实战：“体验”监控，观测"
 date: 2020-03-12T12:52:00+08:00
 draft: false
 tags: ["istio", "实战", "观测", "安装"]
-slug: istio-1.5-in-action-addon-components-setup
+slug: istio-1.5-in-action-setup-addon-components
 ---
 
 本文将部署 Istio 的监控，观测附加组件 grafana、tracing、kiali 。标题中使用了“体验”这个词，所以本文所做的练习**只是用于体验，切不可用于生产**，且行文的表述都是基于“体验”这个前提，体验完后，请务必清理。这种建议主要基于以下考虑:

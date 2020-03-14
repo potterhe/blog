@@ -2,7 +2,7 @@
 title: Kubernetes "no route to host"问题
 date: 2019-12-13T23:59:59+08:00
 draft: false
-tags: ["kube-proxy", "ipvs", "no route to host"]
+tags: ["kubernetes", "kube-proxy", "ipvs", "no route to host"]
 ---
 
 我们在使用腾讯云容器服务(tke)的过程中，遇到"no route to host"问题，这里记录为运维日志。
