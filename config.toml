@@ -5,6 +5,7 @@ theme = "ananke"
 enableRobotsTXT = true
 
 Paginate = 6 # this is set low for demonstrating with dummy content. Set to a higher number
+SectionPagesMenu = "main"
 
 [params]
   env = "production"
