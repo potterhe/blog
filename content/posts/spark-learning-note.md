@@ -6,12 +6,12 @@ tags: ["spark"]
 slug: spark-learning-note
 ---
 
-## 目的
+## 目标
 
 - 概念
 - 本地开发
 
-## 本地环境
+## 本地环境(Mac OS X)
 
 - [下载](http://spark.apache.org/downloads.html)
 
@@ -85,15 +85,8 @@ deactivate(仅从当前venv环境脱离时执行)
 ./bin/spark-submit examples/src/main/python/sql/streaming/structured_network_wordcount.py localhost 9999
 ```
 - udf
-
-## 心跳数据
-
 - 代码在哪里执行?
 ![rdd](/images/spark-learning/IMG_1502.jpg)
-
-## todo
-
-- rd集群
 
 ## 理论
 
