@@ -51,3 +51,22 @@ slug: a-kubeapps-based-application-deploying-and-managing-system
 ## 系统架构
 
 ![mykubeapps](/images/mykubeapps.svg)
+
+
+### charts 的维护
+
+charts 通过 git 进行版本控制，通过 MergeRequest(gitlab 的概念，github 叫 PullRequest) 提交变更，合并操作触发 CI 自动推送到 chartmuseum。下面是 CI 脚本，helm 的 push 插件需要自行安装。
+
+```sh
+#!/bin/bash
+set -e
+
+charts=$(git diff --name-only HEAD^ HEAD|awk -F/ '{print $1}'|sort|uniq)
+for chart in $charts;
+do
+    echo $chart
+    if [ -d "$chart" ]; then
+        helm push -f $chart $CHARTMUSEUM_URL --username=$CHARTMUSEUM_BASIC_AUTH_USER --password=$CHARTMUSEUM_BASIC_AUTH_PASS
+    fi
+done
+```
