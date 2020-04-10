@@ -1,5 +1,5 @@
 ---
-title: "Istio 1.5.0 实战：授权(Authorization)"
+title: "Istio 1.5 实战：授权(Authorization)"
 date: 2020-03-20T23:37:00+08:00
 draft: false
 tags: ["istio", "实战", "授权", "Authorization"]

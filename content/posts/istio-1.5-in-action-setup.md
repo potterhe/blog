@@ -1,8 +1,8 @@
 ---
-title: "Istio 1.5.0 实战：安装"
+title: "Istio 1.5 实战：安装"
 date: 2020-03-11T23:59:50+08:00
 draft: false
-tags: ["istio", "1.5.0", "实战", "安装"]
+tags: ["istio", "1.5", "实战", "安装"]
 slug: istio-1.5-in-action-setup
 ---
 

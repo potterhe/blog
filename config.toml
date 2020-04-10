@@ -12,3 +12,9 @@ SectionPagesMenu = "main"
   twitter = "https://twitter.com/potterhe"
   github = "https://github.com/potterhe"
   featured_image = "/images/gohugo-default-sample-hero-image.jpg"
+
+[markup]
+  [markup.tableOfContents]
+    endLevel = 3
+    ordered = false
+    startLevel = 2

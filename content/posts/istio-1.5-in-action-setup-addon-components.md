@@ -1,5 +1,5 @@
 ---
-title: "Istio 1.5.0 实战：“体验”监控，观测"
+title: "Istio 1.5 实战：“体验”监控，观测"
 date: 2020-03-12T12:52:00+08:00
 draft: false
 tags: ["istio", "实战", "观测", "安装"]
