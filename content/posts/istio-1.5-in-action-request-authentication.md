@@ -294,6 +294,10 @@ todo
 1. [Principals](https://istio.io/zh/docs/concepts/security/#principals)
 1. [requestPrincipals](https://istio.io/docs/reference/config/security/authorization-policy/#Source)。`Source.requestPrincipals` 的描述有 “Optional. A list of request identities (i.e. “iss/sub” claims), which matches to the “request.auth.principal” attribute”
 
+## 浏览器注入header
+
+[Chrome 的 Modify Header Value 扩展](https://chrome.google.com/webstore/detail/modify-header-value-http/cbdibdfhahmknbkkojljfncpnhmacdek/related) 允许给指定的站点注入 header，我们可以方便的注入 `Authorization` 头
+
 ## 小结
 
 通过控制颁发的 JWT 和配置认证策略，我们可以在不修改应用的情况下，实现一定粒度的访问控制。
