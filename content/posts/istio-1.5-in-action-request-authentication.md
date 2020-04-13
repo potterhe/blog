@@ -12,7 +12,6 @@ toc: true
 - [认证](https://istio.io/docs/concepts/security/#authentication)
 - [Request authentication](https://istio.io/docs/concepts/security/#request-authentication)
 
-
 ## RequestAuthentication
 
 先看看 manifest 长什么样子，下面是官网的一个样例，主要由两个字段构成 `selector`，`jwtRules`。
@@ -32,8 +31,8 @@ spec:
     jwksUri: "https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json"
 ```
 
-- [Reference Request authentication](https://istio.io/docs/reference/config/security/request_authentication/) 描述了manifest 的完整定义。
-- [Reference JWTRule](https://istio.io/docs/reference/config/security/jwt/) 描述了 `jwtRules` 的定义。
+- [Reference: Request authentication](https://istio.io/docs/reference/config/security/request_authentication/) 描述了manifest 的完整定义。
+- [Reference: JWTRule](https://istio.io/docs/reference/config/security/jwt/) 描述了 `jwtRules` 的定义。
 
 ### Selector
 
@@ -282,7 +281,62 @@ todo
 
 ### 限定必须提供有效的 JWT
 
-[Task-Require a valid token](https://istio.io/docs/tasks/security/authentication/authn-policy/#require-a-valid-token) 描述了实现。
+[Task: Require a valid token](https://istio.io/docs/tasks/security/authentication/authn-policy/#require-a-valid-token) 描述了实现。
+
+## 构建私有的 JWK
+
+`gen-jwt.py` 工具提供了生成私有 JWK 的功能，文档描述在 [Regenerate private key and JWKS (for developer use only)](https://github.com/istio/istio/blob/master/security/tools/jwt/samples/README.md#regenerate-private-key-and-jwks-for-developer-use-only)
+
+## 使用 RequestAuthentication 保护观测组件
+
+由于观测组件是安装在 istio-system 命名空间的，而这个空间并不会注入 sidecar，所以当前只能在绑定了这些服务的 `istio:ingressgateway` 工作负载上应用认证策略。但这其实是不好的选择，建议用另一个 ingressgateway，与业务入口分离。
+
+### 认证策略
+
+移除 istio-ingressgateway 上的 RequestAuthentication 后，应用以下认证和授权策略。
+
+```yaml
+apiVersion: "security.istio.io/v1beta1"
+kind: "RequestAuthentication"
+metadata:
+  name: "istio-addon-components-jwt"
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  jwtRules:
+  - issuer: "testing@secure.istio.io"
+    jwks: '{ "keys":[ {"e":"AQAB","kid":"8CzPCO8ERS-yWH-tGmhnFj6irQ4LxqSNMA8jCVsQcc0","kty":"RSA","n":"uaCoiaE-FgXPhEI7YQHy-wyd_j0bVzbW1YM6nFnPcXpRSUFoToj8i2IsJ3cMyXN9mifGQIsw_LgojLfYOr2iTEDtPTYz4pX1O1NCn8n5tzyARjAGcwpCNoJ-dyMCRpWcBwj6Ro12lEdhDMG1i2EluUCUM6OELZMaAeG6qbXH1h1I5RzzwIrdaQe5eCAZTDMsBLi_3qzAUtEWRm5xC7JERBI25MLileZU8VkTNlhkjAIS6mgytK4Op7nd04GynhcjMPT8YEYDcj8KvYwgRM__dQK2H6XE3rk8wnNPgAd3JstkKSimjLtwR50_xGieQD1ZEXT9p-aLtWx1_f2EUBOm-Q"}]}'
+    fromHeaders:
+    - name: X-My-Authorization
+      prefix: "Bearer "
+    outputPayloadToHeader: "X-Jwt-Playload"
+
+---
+apiVersion: "security.istio.io/v1beta1"
+kind: "AuthorizationPolicy"
+metadata:
+  name: istio-addon-components-ap
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]
+    to:
+    - operation:
+       hosts:
+       - tracing.company.com
+       - grafana-istio.company.com
+       - tracing.company.com
+```
+
+现在我们可以放心的开放这些服务了。
 
 ## 认证与授权
 
