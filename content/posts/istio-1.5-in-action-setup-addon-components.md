@@ -27,21 +27,24 @@ spec:
   addonComponents:
     grafana:
       enabled: true
-  values:
-    gateways:
-      istio-ingressgateway:
+  components:
+    ingressGateways:
+    - name: istio-ingressgateway
+      enabled: true
+      k8s:
         serviceAnnotations:
           # https://cloud.tencent.com/document/product/457/18210
           service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=true
         nodeSelector:
-          company.com/ingressgateway: true
-        ports:
-          # 公网lb控制暴露的端口.
-        - name: http2
-          port: 80
-          targetPort: 80
-        - name: https
-          port: 443
+          company.com/ingressgateway: "true"
+        service:
+          ports:
+            # 公网lb控制暴露的端口.
+          - name: http2
+            port: 80
+            targetPort: 80
+          - name: https
+            port: 443
 ```
 
 查看现场，预期会增加以下对象
@@ -123,21 +126,25 @@ spec:
       enabled: true
     tracing:
       enabled: true
-  values:
-    gateways:
-      istio-ingressgateway:
+  components:
+    ingressGateways:
+    - name: istio-ingressgateway
+      enabled: true
+      k8s:
         serviceAnnotations:
           # https://cloud.tencent.com/document/product/457/18210
           service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=true
         nodeSelector:
-          company.com/ingressgateway: true
-        ports:
-          # 公网lb控制暴露的端口.
-        - name: http2
-          port: 80
-          targetPort: 80
-        - name: https
-          port: 443
+          company.com/ingressgateway: "true"
+        service:
+          ports:
+            # 公网lb控制暴露的端口.
+          - name: http2
+            port: 80
+            targetPort: 80
+          - name: https
+            port: 443
+  values:
     pilot:
       traceSampling: 100
 ```
@@ -237,21 +244,25 @@ spec:
       enabled: true
     tracing:
       enabled: true
-  values:
-    gateways:
-      istio-ingressgateway:
+  components:
+    ingressGateways:
+    - name: istio-ingressgateway
+      enabled: true
+      k8s:
         serviceAnnotations:
           # https://cloud.tencent.com/document/product/457/18210
           service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=true
         nodeSelector:
-          company.com/ingressgateway: true
-        ports:
-          # 公网lb控制暴露的端口.
-        - name: http2
-          port: 80
-          targetPort: 80
-        - name: https
-          port: 443
+          company.com/ingressgateway: "true"
+        service:
+          ports:
+            # 公网lb控制暴露的端口.
+          - name: http2
+            port: 80
+            targetPort: 80
+          - name: https
+            port: 443
+  values:
     pilot:
       traceSampling: 100
 ```

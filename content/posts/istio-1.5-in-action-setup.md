@@ -58,14 +58,16 @@ metadata:
   namespace: istio-system
 spec:
   profile: default
-  values:
-    gateways:
-      istio-ingressgateway:
+  components:
+    ingressGateways:
+    - name: istio-ingressgateway
+      enabled: true
+      k8s:
         serviceAnnotations:
           # https://cloud.tencent.com/document/product/457/18210
           service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=true
         nodeSelector:
-          company.com/ingressgateway: true
+          company.com/ingressgateway: "true"
 ```
 
 给购买了公网带宽的 node 打上 label
@@ -189,7 +191,7 @@ horizontalpodautoscaler.autoscaling/istiod                 Deployment/istiod    
 
 #### 再探 istio-ingressgateway
 
-istio-ingressgateway 这个服务我们需要特别关注，我们知道这是一个公网入口，它暴露了非常多的端口(这些端口的name语义在 `istioctl profile dump default --config-path values.gateways.istio-ingressgateway.ports` 的输出中有显示)，我们需要确认这些端口的用途和风险，预期中我们只需要暴露80和443端口。
+istio-ingressgateway 这个服务我们需要特别关注，我们知道这是一个公网入口，它暴露了非常多的端口(这些端口的name语义在 `istioctl profile dump default --config-path values.gateways.istio-ingressgateway.ports` 的输出中有显示)，我们需要确认这些端口的用途和风险，预期中我们只需要暴露80和443端口。特别地，15443 端口在多集群部署（[Replicated control planes](https://istio.io/docs/setup/install/multicluster/gateways/)）时作为集群间流量的入口。
 
 ```sh
 $ kubectl exec -it istio-ingressgateway-78ff7c44f4-sccbj bash -n istio-system
@@ -227,6 +229,7 @@ envoy    19 root   32u  IPv4 236714      0t0  TCP *:15090 (LISTEN)
 - 其它 Service 上的端口在 Pod 上没有监听。通过设置 `values.gateways.istio-ingressgateway.telemetry_addon_gateways.tracing_gateway.enabled=true` 等配置项簇，可以启用这些端口，本质上是定义了一批 Gateway 对象。**但强烈不建议这么做，监控、观测的系统必须要做足够的访问控制，暴露这些系统也可以在80，443端口上通过域名来实现，但仍需要做到足够的访问控制**。访问控制是服务网格的重要能力，在 istio-1.5 之前的版本中，由 mixer 负责，从1.5开始已经明确表示要废弃，新机制在[security](https://istio.io/docs/concepts/security/)章节进行了描述。
 
 调整 override 选项后，应用到集群。
+
 ```yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -234,21 +237,24 @@ metadata:
   namespace: istio-system
 spec:
   profile: default
-  values:
-    gateways:
-      istio-ingressgateway:
+  components:
+    ingressGateways:
+    - name: istio-ingressgateway
+      enabled: true
+      k8s:
         serviceAnnotations:
           # https://cloud.tencent.com/document/product/457/18210
           service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=true
         nodeSelector:
-          company.com/ingressgateway: true
-        ports:
-          # 公网lb控制暴露的端口.
-        - name: http2
-          port: 80
-          targetPort: 80
-        - name: https
-          port: 443
+          company.com/ingressgateway: "true"
+        service:
+          ports:
+            # 公网lb控制暴露的端口.
+          - name: http2
+            port: 80
+            targetPort: 80
+          - name: https
+            port: 443
 ```
 
 ```
