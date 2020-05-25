@@ -257,6 +257,8 @@ spec:
             port: 443
 ```
 
+这里请注意service、serviceAnnotations的节点层次。
+
 ```
 $ istioctl manifest apply -f profile-override-default.yaml
 proto: tag has too few fields: "-"
