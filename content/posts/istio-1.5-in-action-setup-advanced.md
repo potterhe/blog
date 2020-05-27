@@ -77,7 +77,7 @@ $ istioctl profile dump --config-path components.ingressGateways
 install/kubernetes/operator/charts/gateways/istio-ingress/templates/meshexpansion.yaml
 install/kubernetes/operator/charts/gateways/istio-ingress/templates/service.yaml
 
-官方文档有明确的提醒，不可将“sample”的root-ca用于生产，需要构建私有的root-ca，[生成root-ca的文档和工具](https://github.com/istio/istio/blob/master/samples/certs/README.md)(1.5版本有一个Makefile, 1.6已经没有了,可切换到具体的tag查看提交历史)
+官方文档有明确的提醒，不可将“sample”的root-ca用于生产，需要构建私有的root-ca，[生成root-ca的文档和工具](https://github.com/istio/istio/blob/master/samples/certs/README.md)。1.5版本有一个Makefile, 1.6已经没有了,可切换到具体的tag查看提交历史。1.6版本提供了一个shell脚本(https://github.com/istio/istio/blob/master/samples/multicluster/setup-mesh.sh) 提供了rootca的生成及其它多集群相关的工具。
 
 ### 多控制平面
 
