@@ -1,7 +1,7 @@
 ---
 title: "Istio 1.6 实战：多集群安装"
 date: 2020-05-27T14:40:50+08:00
-draft: true
+draft: false
 tags: ["istio", "1.6", "实战", "安装", "多集群"]
 slug: istio-1.6-in-action-setup-multicluster
 ---
