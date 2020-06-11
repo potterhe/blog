@@ -6,12 +6,38 @@ tags: ["istio", "实战", "观测", "安装"]
 slug: istio-1.5-in-action-setup-addon-components
 ---
 
+**本文的内容已经过时，未来的发行版将删除addon，请详见官方的博客 https://istio.io/latest/blog/2020/addon-rework/ **
+
 本文将部署 Istio 的监控，观测附加组件 grafana、tracing、kiali 。标题中使用了“体验”这个词，所以本文所做的练习**只是用于体验，切不可用于生产**，且行文的表述都是基于“体验”这个前提，体验完后，请务必清理。这种建议主要基于以下考虑:
 
 - 安全。在没有应用“认证”、“授权”机制前，这些服务裸奔在公网是危险的，即使有的系统有帐密。
-- 存储。这些服务都是有状态的，涉及状态数据的存储，如：promethues、grafana、kiali、tracing。这些 Pod 一旦重建，数据就会丢失。一般地，需要我们适配 k8s 标准化的存储机制，如：storageClass、pv、pvc等。
+- 存储。这些服务都是有状态的，涉及状态数据的存储，如：promethues、grafana、kiali、tracing。这些 Pod 一旦重建，数据就会丢失。一般地，需要我们适配 k8s 标准化过的存储机制，如：storageClass、pv、pvc等。
 
 ## 组件部署
+
+查看支持的 addonComponents，以及默认的配置值。
+
+```sh
+$ istioctl profile dump --config-path addonComponents
+2020-06-10T01:37:35.653332Z	info	proto: tag has too few fields: "-"
+grafana:
+  enabled: false
+  k8s:
+    replicaCount: 1
+istiocoredns:
+  enabled: false
+kiali:
+  enabled: false
+  k8s:
+    replicaCount: 1
+prometheus:
+  enabled: true
+  k8s:
+    replicaCount: 1
+tracing:
+  enabled: false
+```
+
 
 ### grafana
 
@@ -49,7 +75,7 @@ spec:
 
 查看现场，预期会增加以下对象
 
-```
+```sh
 $ kubectl get all -n istio-system
 NAME                                        READY   STATUS    RESTARTS   AGE
 pod/grafana-5dc9c87cdf-j6ml8                1/1     Running   0          3d9h
@@ -66,7 +92,7 @@ replicaset.apps/grafana-5dc9c87cdf                1         1         1       3d
 
 定义 Gateway 暴露服务。保存以下内容到 istio-addon-components-gateway.yaml。
 
-```
+```yaml
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -151,7 +177,7 @@ spec:
 
 查看现场，预期会新增以下对象。
 
-```
+```sh
 $ kubectl get all -n istio-system
 NAME                                        READY   STATUS    RESTARTS   AGE
 pod/istio-tracing-8648c56f59-qmcgk          1/1     Running   0          3d9h
@@ -173,7 +199,7 @@ replicaset.apps/istio-tracing-8648c56f59          1         1         1       3d
 
 定义 Gateway 暴露服务。
 
-```
+```yaml
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -269,7 +295,7 @@ spec:
 
 查看现场，预期会新增以下对象。
 
-```
+```sh
 $ kubectl get all -n istio-system
 NAME                                        READY   STATUS    RESTARTS   AGE
 pod/kiali-7469f7b56d-l55q4                  1/1     Running   0          3d5h
@@ -286,7 +312,7 @@ replicaset.apps/kiali-7469f7b56d                  1         1         1       3d
 
 定义 Gateway 暴露服务。
 
-```
+```yaml
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -354,6 +380,17 @@ spec:
 ```
 
 体验，清理步骤与 grafana 节描述的一致。
+
+### prometheus
+
+`addonComponents.prometheus.enabled` 默认是开启的，通过查看charts编排和实际pod的运行参数，这个服务基本不是生产级的，表现在
+
+- `--storage.tsdb.retention=6h`，只会保留近6小时的数据，当然这个值是可以调整的。
+- 数据持久化方面，数据是落地在容器里的, 并没有挂载pvc，charts里也没有提供相关的配置项支持。即容器重建的场景，数据将丢失。
+
+综上，实际生产中，我们需要关闭它，用自建的prometheus-operator来代替，这个涉及多个方面，如kaili有依赖prometheus。
+
+**正如文章开头的提示，addon 整合已经不是社区未来的方向，所以可以极早向上游部署方式看齐。**
 
 ## 小结
 

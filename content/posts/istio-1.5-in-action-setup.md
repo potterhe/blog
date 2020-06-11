@@ -72,7 +72,7 @@ spec:
 
 给购买了公网带宽的 node 打上 label
 
-```
+```sh
 $ kubectl label node 172.21.128.82 company.com/ingressgateway=true
 ```
 
