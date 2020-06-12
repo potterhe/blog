@@ -6,7 +6,7 @@ tags: ["istio", "实战", "观测", "安装"]
 slug: istio-1.5-in-action-setup-addon-components
 ---
 
-** 本文的内容已经过时，未来的发行版将删除addon，请详见官方的博客[Reworking our Addon Integrations](https://istio.io/latest/blog/2020/addon-rework/)，addon 整合已经不是社区未来的方向，所以可以极早向上游部署方式看齐。这是很好的方向 **
+**本文的内容已经过时，未来的发行版将删除addon，请详见官方的博客[Reworking our Addon Integrations](https://istio.io/latest/blog/2020/addon-rework/)，addon 整合已经不是社区未来的方向，所以可以极早向上游部署方式看齐，这是一个好的方向。**
 
 本文将部署 Istio 的监控，观测附加组件 grafana、tracing、kiali 。标题中使用了“体验”这个词，所以本文所做的练习**只是用于体验，切不可用于生产**，且行文的表述都是基于“体验”这个前提，体验完后，请务必清理。这种建议主要基于以下考虑:
 
