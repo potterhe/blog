@@ -1,7 +1,7 @@
 ---
 title: "Istio 实战：VirtualService rewrite"
 date: 2020-07-01T10:00:00+08:00
-draft: true
+draft: false
 tags: ["istio", "实战", "VirtualService", "rewrite"]
 slug: istio-in-action-virtualservice-rewrite
 ---
