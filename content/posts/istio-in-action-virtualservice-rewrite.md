@@ -6,17 +6,17 @@ tags: ["istio", "实战", "VirtualService", "rewrite"]
 slug: istio-in-action-virtualservice-rewrite
 ---
 
-## 场景
-
-需求与下述的两个用例完全一致：将请求的特定前缀删除后，再转发给后端应用，这是一个很普通的 rewrite 场景，下面的两个用例也给出了解决方案且有效。官方的文档[HTTPRewrite](https://istio.io/latest/docs/reference/config/networking/virtual-service/#HTTPRewrite)，描述相当的简单，信息量很少。在排查问题的时候遇到困扰，好在找到了下面的两个用例。所以决定把过程记录下来。
-
-- [Rewrite url to the root in the gateway](https://discuss.istio.io/t/rewrite-url-to-the-root-in-the-gateway/2860)
-- [istio: VirtualService rewrite to the root url](https://stackoverflow.com/questions/60658439/istio-virtualservice-rewrite-to-the-root-url)
-
 ## 环境
 
 - istio 1.6.3
 - k8s 1.16.3
+
+## 场景
+
+需求与下述的两个用例完全一致：将请求的特定前缀删除后，再转发给后端应用，这是一个很普通的 rewrite 场景，下面的两个用例也给出了解决方案且有效。官方的文档[HTTPRewrite](https://istio.io/latest/docs/reference/config/networking/virtual-service/#HTTPRewrite)，描述相当的简单，信息量很少，在排查问题的时候遇到困扰，好在找到了下面的两个用例，过程记录如下。
+
+- [Rewrite url to the root in the gateway](https://discuss.istio.io/t/rewrite-url-to-the-root-in-the-gateway/2860)
+- [istio: VirtualService rewrite to the root url](https://stackoverflow.com/questions/60658439/istio-virtualservice-rewrite-to-the-root-url)
 
 ## 目标
 
