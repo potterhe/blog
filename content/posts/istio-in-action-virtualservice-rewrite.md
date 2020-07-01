@@ -25,7 +25,7 @@ slug: istio-in-action-virtualservice-rewrite
 
 ## 过程
 
-打开envoy的accessLog，重建 istio-ingressgateway 工作负载，应用工作负载，以让这些pod里的istio-proxy 应用日志选项。
+打开envoy的accessLog，重建 istio-ingressgateway 工作负载、应用工作负载，以让这些pod里的istio-proxy 应用日志选项。
 
 ```sh
 $ kubectl -n istio-system edit cm istio
