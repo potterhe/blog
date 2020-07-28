@@ -1,5 +1,5 @@
 ---
-title: "Istio 1.6 实战：多集群安装"
+title: "Istio：多集群安装"
 date: 2020-05-27T14:40:50+08:00
 draft: false
 tags: ["istio", "1.6", "实战", "安装", "多集群"]
@@ -10,9 +10,16 @@ slug: istio-1.6-in-action-setup-multicluster
 1. [Replicated control planes](https://istio.io/docs/setup/install/multicluster/gateways/)
 1. [Shared control plane (single and multiple networks)](https://istio.io/docs/setup/install/multicluster/shared/)
 
+## 环境
+
+- istio 1.6.3
+- k8s 1.16.3
+
 ## root-ca
 
-官方文档有明确的提醒，不可将“sample”的root-ca用于生产，需要构建私有的root-ca。官方仓库有提供两个工具帮忙我们生成root-ca。
+为什么需要root-ca？多集群双向认证的必要条件，即使当前是单独部署，考虑到未来多集群的可能性，也应当做root-ca，intermediate-ca的处理。
+
+官方文档有明确的提醒：**不可将“sample”的root-ca用于生产，需要构建私有的root-ca**。官方仓库有提供两个工具帮忙我们生成root-ca。
 
 ### 直接用 Makefile
 
@@ -237,3 +244,8 @@ spec:
     - NONE
     {{- end }}
 ```
+
+
+## 引用
+
+[《多集群部署与管理》](https://www.servicemesher.com/istio-handbook/practice/multiple-cluster.html)
