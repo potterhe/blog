@@ -23,3 +23,7 @@ tags: ["kubernetes", "kube-proxy", "ipvs", "no route to host"]
 - https://engineering.dollarshaveclub.com/kubernetes-fixing-delayed-service-endpoint-updates-fd4d0a31852c
 - https://fuckcloudnative.io/posts/kubernetes-fixing-delayed-service-endpoint-updates/ 中文版本
 - 五元组：源IP地址，源端口，目的IP地址，目的端口，和传输层协议这五个量组成的一个集合
+
+## 终局
+
+[kube-proxy ipvs conn_reuse_mode setting causes errors with high load from single client #81775](https://github.com/kubernetes/kubernetes/issues/81775#issuecomment-642704084) 该issue说明了最终的解决方案，是通过操作系统来解决的。2020年7月，我们将所有TKE集群的节点更换为“CentOS 7.6 64bit TKE-Optimized”后，没有再出现过问题。关于如何判定自己的内核有没有应用这个修订，issue中有说明。
