@@ -1,10 +1,14 @@
 ---
-title: "Istio 1.5 实战：安装进阶"
+title: "Istio：ingressGateway"
 date: 2020-05-25T14:40:50+08:00
 draft: false
-tags: ["istio", "1.5", "实战", "安装"]
+tags: ["istio", "实战", "ingressGateway"]
 slug: istio-1.5-in-action-setup-advanced
 ---
+
+## 环境
+
+- istio 1.5.2
 
 ## 多ingressGateway
 
