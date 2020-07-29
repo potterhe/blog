@@ -150,9 +150,8 @@ CITADEL_SAN_DNS ?= localhost
 
 此选项打开时，会在manifest中新增3个资源，它们在 `manifests/charts/gateways/istio-ingress/templates/preconfigured.yaml` 中定义。我们需要关注该配置项与 `components.ingressGateways` 配置项的相互影响和具体行为 [configure-gateways](https://istio.io/docs/setup/install/istioctl/#configure-gateways)。当使用[Replicated control planes](https://istio.io/docs/setup/install/multicluster/gateways/)方式构建多集群网格，选定 gateway 入口时，需要特别关注。
 
-1. `manifests/charts/gateways/istio-ingress` 会用于渲染 `components.ingressGateways` 定义的每一个ingressgateway。
-1. `manifests/charts/gateways/istio-ingress/templates/preconfigured.yaml` 的逻辑是：`values.gateways["istio-ingressgateway"]` 存在定义就会生成3个 manifest 资源。
-1. 即 `components.ingressGateways` 每定义一个，就会生成这3个资源，这3个资源的 namespace 与 `components.ingressGateways[i].namespace` 匹配，且 `selector` 始终匹配 `components.ingressGateways[i].name=istio-ingressgateway` 那个。所以可以理解为：当一个 namespace 创建了n个 ingressgateway 时，会生成n组3个资源，但它们都是相同的，最后每个 namespace 只会有一组资源。这里的设计和实现似乎是有缺陷的。
+1. `manifests/charts/gateways/istio-ingress` 会用于渲染 `components.ingressGateways` (profile 中) 定义的每一个ingressgateway。
+1. `manifests/charts/gateways/istio-ingress/templates/preconfigured.yaml` 的逻辑是：`values.gateways["istio-ingressgateway"]` 存在定义就会生成3个 manifest 资源。即 `components.ingressGateways` 每定义一个，就会生成这3个资源，这3个资源的 namespace 与 `components.ingressGateways[i].namespace` 匹配，且 `selector` 始终匹配 `components.ingressGateways[i].name=istio-ingressgateway` 那个。所以可以理解为：当一个 namespace 创建了n个 ingressgateway 时，会生成n组3个资源，但它们都是相同的，最后每个 namespace 只会有一组资源。这里的设计和实现似乎是有缺陷的。
 
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
