@@ -1,9 +1,9 @@
 ---
-title: "Istio 1.5 实战：认证--RequestAuthentication"
+title: "Istio 实战：认证--RequestAuthentication"
 date: 2020-03-20T23:40:00+08:00
 draft: false
 tags: ["istio", "实战", "认证", "Authentication", "RequestAuthentication"]
-slug: istio-1.5-in-action-request-authentication
+slug: istio-in-action-request-authentication
 toc: true
 ---
 
@@ -11,6 +11,10 @@ toc: true
 
 - [认证](https://istio.io/docs/concepts/security/#authentication)
 - [Request authentication](https://istio.io/docs/concepts/security/#request-authentication)
+
+## 环境
+
+istio 1.5.2
 
 ## RequestAuthentication
 
