@@ -291,6 +291,11 @@ todo
 
 `gen-jwt.py` 工具提供了生成私有 JWK 的功能，文档描述在 [Regenerate private key and JWKS (for developer use only)](https://github.com/istio/istio/blob/master/security/tools/jwt/samples/README.md#regenerate-private-key-and-jwks-for-developer-use-only)
 
+以下是用 `gen-jwt.py` 脚本生成 jwks 的方式，istio 的 README.md 文件里没有描述，从源码可以得到。
+```sh
+$ ./gen-jwt.py ./key.pem --jwks=./jwks.json
+```
+
 ## 使用 RequestAuthentication 保护观测组件
 
 由于观测组件是安装在 istio-system 命名空间的，而这个空间并不会注入 sidecar，所以当前只能在绑定了这些服务的 `istio:ingressgateway` 工作负载上应用认证策略。但这其实是不好的选择，建议用另一个 ingressgateway，与业务入口分离。
