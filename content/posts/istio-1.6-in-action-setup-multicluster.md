@@ -6,6 +6,8 @@ tags: ["istio", "1.6", "实战", "安装", "多集群"]
 slug: istio-1.6-in-action-setup-multicluster
 ---
 
+** 版本 1.8.0 官方文档[certificate management](https://istio.io/latest/docs/tasks/security/cert-management) 中的 “[Plug in CA Certificates](https://istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert/)” 对此有了更好的描述。**
+
 1. [部署模型](https://istio.io/docs/ops/deployment/deployment-models)
 1. [Replicated control planes](https://istio.io/docs/setup/install/multicluster/gateways/)
 1. [Shared control plane (single and multiple networks)](https://istio.io/docs/setup/install/multicluster/shared/)
